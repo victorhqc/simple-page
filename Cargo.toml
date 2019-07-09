@@ -1,0 +1,8 @@
+[package]
+name = "simple-page"
+version = "0.1.0"
+authors = ["Victor Quiroz Castro <victorhqc@gmail.com>"]
+edition = "2018"
+
+[dependencies]
+gotham = "0.3.0"
