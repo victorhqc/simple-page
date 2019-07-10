@@ -6,6 +6,11 @@ extern crate mime;
 extern crate dotenv;
 extern crate url;
 
+#[macro_use]
+extern crate serde_derive;
+extern crate serde;
+extern crate serde_json;
+
 use gotham::router::builder::*;
 use gotham::router::Router;
 
@@ -13,19 +18,18 @@ mod routes;
 use routes::simple_form;
 
 mod giphy;
-use giphy::{run_giphy, Gifs};
+use giphy::{run_giphy};
 
 fn main() {
-    let mut gifs = Gifs::new();
 
-    run_giphy(&mut gifs);
+    run_giphy();
 
     let addr = "127.0.0.1:7878";
     println!("Listening for requests at http://{}", addr);
-    gotham::start(addr, router(&gifs))
+    gotham::start(addr, router())
 }
 
-fn router(gifs: &Gifs) -> Router {
+fn router() -> Router {
     build_simple_router(|route| {
         route.get("/").to(simple_form);
     })
