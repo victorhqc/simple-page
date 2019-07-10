@@ -3,11 +3,13 @@ extern crate askama;
 extern crate hyper;
 extern crate mime;
 
-use gotham::state::State;
+use gotham::state::{FromState, State};
 use gotham::helpers::http::response::{create_empty_response, create_response};
 
 use askama::Template;
 use hyper::{Body, Response, StatusCode};
+
+use crate::GifHolder;
 
 const MESSAGE: &str = "Gotham";
 
@@ -18,6 +20,8 @@ pub struct SimpleForm {
 }
 
 pub fn simple_form(state: State) -> (State, Response<Body>) {
+    let _holder = GifHolder::borrow_from(&state);
+
     let tpl = SimpleForm {
         world: MESSAGE.to_string(),
     };

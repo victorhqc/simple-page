@@ -1,14 +1,18 @@
 use std::env;
 
 use hyper::Client;
-use hyper::rt::{self, Future, Stream};
+// use hyper::rt::{self, Future, Stream};
 use hyper_tls::HttpsConnector;
+use futures::{Future, Stream};
+// use tokio::spawn;
+
+// use futures::future::map::Map;
 
 use dotenv::dotenv;
 
 use url::Url;
 
-pub fn run_giphy() {
+pub fn run_giphy() -> impl Future<Item=(), Error=()> {
     dotenv().ok();
 
     let giphy_key = env::var("GIPHY_KEY").expect("GIPHY_KEY must be set in your .env file");
@@ -25,17 +29,21 @@ pub fn run_giphy() {
     let uri = url.into_string().parse().unwrap();
     println!("URI: {}", uri);
 
-    let fut = fetch_json(uri)
+    fetch_json(uri)
         // use the parsed vector
-        .map(move |gifs_result| {
-            // print users
-            println!("gifs: {:#?}", gifs_result);
-            // let b = gifs.as_mut();
-            //
-            // for gif in gifs_result.data {
-            //     b.push(gif.clone())
-            // }
-            // gifs.push(gifs_result.data.clone());
+        // .map(|gifs_result| {
+        //     // print users
+        //     println!("gifs: {:#?}", gifs_result);
+        //
+        //     // let b = gifs.as_mut();
+        //     //
+        //     // for gif in gifs_result.data {
+        //     //     b.push(gif.clone())
+        //     // }
+        //     // gifs.push(gifs_result.data.clone());
+        // })
+        .and_then(|_g| {
+            Ok(())
         })
         // if there was an error print it
         .map_err(|e| {
@@ -43,19 +51,22 @@ pub fn run_giphy() {
                 FetchError::Http(e) => eprintln!("http error: {}", e),
                 FetchError::Json(e) => eprintln!("json parsing error: {}", e),
             }
-        });
+        })
 
     // Run the runtime with the future trying to fetch, parse and print json.
     //
     // Note that in more complicated use cases, the runtime should probably
     // run on its own, and futures should just be spawned into it.
-    rt::run(fut);
+    // rt::spawn(fut);
+    // spawn(fut);
 }
 
 fn fetch_json(url: hyper::Uri) -> impl Future<Item=GiphyResult, Error=FetchError> {
     let https = HttpsConnector::new(4).expect("TLS Initialization failed!");
     let client = Client::builder()
         .build::<_, hyper::Body>(https);
+
+    println!("Fetch JSON");
 
     client
         // Fetch the url...
@@ -70,13 +81,14 @@ fn fetch_json(url: hyper::Uri) -> impl Future<Item=GiphyResult, Error=FetchError
         .and_then(|body| {
             // try to parse as json with serde_json
             let gifs_result = serde_json::from_slice(&body)?;
+            println!("Done!");
 
             Ok(gifs_result)
         })
         .from_err()
 }
 
-enum FetchError {
+pub enum FetchError {
     Http(hyper::Error),
     Json(serde_json::Error),
 }
@@ -100,10 +112,10 @@ pub struct GiphyResult {
 
 #[derive(Deserialize, Debug)]
 pub struct Gif {
-    id: String,
-    slug: String,
-    url: String,
-    title: String,
+    pub id: String,
+    pub slug: String,
+    pub url: String,
+    pub title: String,
 }
 
 impl Clone for Gif {
