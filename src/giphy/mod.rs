@@ -1,18 +1,15 @@
 use std::env;
+use std::sync::{Arc, Mutex};
 
 use hyper::Client;
-// use hyper::rt::{self, Future, Stream};
 use hyper_tls::HttpsConnector;
 use futures::{Future, Stream};
-// use tokio::spawn;
-
-// use futures::future::map::Map;
 
 use dotenv::dotenv;
 
 use url::Url;
 
-pub fn run_giphy() -> impl Future<Item=(), Error=()> {
+pub fn fetch_gifs() -> impl Future<Item=GiphyResult, Error=()> {
     dotenv().ok();
 
     let giphy_key = env::var("GIPHY_KEY").expect("GIPHY_KEY must be set in your .env file");
@@ -30,20 +27,8 @@ pub fn run_giphy() -> impl Future<Item=(), Error=()> {
     println!("URI: {}", uri);
 
     fetch_json(uri)
-        // use the parsed vector
-        // .map(|gifs_result| {
-        //     // print users
-        //     println!("gifs: {:#?}", gifs_result);
-        //
-        //     // let b = gifs.as_mut();
-        //     //
-        //     // for gif in gifs_result.data {
-        //     //     b.push(gif.clone())
-        //     // }
-        //     // gifs.push(gifs_result.data.clone());
-        // })
-        .and_then(|_g| {
-            Ok(())
+        .and_then(|g| {
+            Ok(g)
         })
         // if there was an error print it
         .map_err(|e| {
@@ -52,21 +37,12 @@ pub fn run_giphy() -> impl Future<Item=(), Error=()> {
                 FetchError::Json(e) => eprintln!("json parsing error: {}", e),
             }
         })
-
-    // Run the runtime with the future trying to fetch, parse and print json.
-    //
-    // Note that in more complicated use cases, the runtime should probably
-    // run on its own, and futures should just be spawned into it.
-    // rt::spawn(fut);
-    // spawn(fut);
 }
 
 fn fetch_json(url: hyper::Uri) -> impl Future<Item=GiphyResult, Error=FetchError> {
     let https = HttpsConnector::new(4).expect("TLS Initialization failed!");
     let client = Client::builder()
         .build::<_, hyper::Body>(https);
-
-    println!("Fetch JSON");
 
     client
         // Fetch the url...
@@ -81,7 +57,6 @@ fn fetch_json(url: hyper::Uri) -> impl Future<Item=GiphyResult, Error=FetchError
         .and_then(|body| {
             // try to parse as json with serde_json
             let gifs_result = serde_json::from_slice(&body)?;
-            println!("Done!");
 
             Ok(gifs_result)
         })
@@ -107,7 +82,7 @@ impl From<serde_json::Error> for FetchError {
 
 #[derive(Deserialize, Debug)]
 pub struct GiphyResult {
-    data: Vec<Gif>
+    pub data: Vec<Gif>
 }
 
 #[derive(Deserialize, Debug)]
@@ -116,6 +91,19 @@ pub struct Gif {
     pub slug: String,
     pub url: String,
     pub title: String,
+    pub images: Images,
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Images {
+    pub original: Image
+}
+
+#[derive(Deserialize, Debug)]
+pub struct Image {
+    pub url: String,
+    pub width: String,
+    pub height: String,
 }
 
 impl Clone for Gif {
@@ -125,6 +113,65 @@ impl Clone for Gif {
             slug: self.slug.clone(),
             url: self.url.clone(),
             title: self.title.clone(),
+            images: self.images.clone(),
+        }
+    }
+}
+
+impl Clone for Images {
+    fn clone (&self) -> Images {
+        Images {
+            original: self.original.clone(),
+        }
+    }
+}
+
+impl Clone for Image {
+    fn clone(&self) -> Image {
+        Image {
+            url: self.url.clone(),
+            width: self.width.clone(),
+            height: self.height.clone(),
+        }
+    }
+}
+
+/// This struct must implement `Clone` and `StateData` to be applicable
+/// for use with the `StateMiddleware`, and be shared via `Middleware`.
+#[derive(Clone, StateData)]
+pub struct GifHolder {
+    gifs: Arc<Mutex<Vec<Gif>>>,
+}
+
+impl GifHolder {
+    pub fn new() -> Self {
+        Self {
+            gifs: Arc::new(Mutex::new(Vec::new())),
+        }
+    }
+
+    pub fn add_gif(&self, gif: Gif) {
+        let mut gifs = self.gifs.lock().unwrap();
+        gifs.push(gif);
+    }
+
+    pub fn get_first_gif(&self) -> Option<Gif> {
+        let gifs = self.gifs.lock().unwrap();
+        let gif = gifs.first();
+
+        match gif {
+            Some(g) => Some(g.clone()),
+            None => None
+        }
+    }
+
+    pub fn get_gif(&self, slug: &str) -> Option<Gif> {
+        let gifs = self.gifs.lock().unwrap();
+        let gif = gifs.iter().filter(|g| g.slug == slug).last();
+
+        match gif {
+            Some(g) => Some(g.clone()),
+            None => None
         }
     }
 }

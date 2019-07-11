@@ -17,13 +17,19 @@ const MESSAGE: &str = "Gotham";
 #[template(path = "simple_form.html")]
 pub struct SimpleForm {
     pub world: String,
+    pub gif: String,
 }
 
 pub fn simple_form(state: State) -> (State, Response<Body>) {
-    let _holder = GifHolder::borrow_from(&state);
+    let holder = GifHolder::borrow_from(&state);
+    let gif_url = match holder.get_first_gif() {
+        Some(g) => g.images.original.url,
+        None => String::from("")
+    };
 
     let tpl = SimpleForm {
         world: MESSAGE.to_string(),
+        gif: gif_url,
     };
 
     let res = match tpl.render() {
