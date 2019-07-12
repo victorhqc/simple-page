@@ -35,16 +35,12 @@ use giphy::{GifHolder, fetch_gifs};
 
 fn main() {
     tokio::run(lazy(|| {
-        fetch_gifs().and_then(|result| {
+        fetch_gifs().and_then(|gifs| {
             let addr = "127.0.0.1:7878";
             println!("Listening for requests at http://{}", addr);
 
             // create the gifs holder to share across handlers
-            let gifs_holder = GifHolder::new();
-
-            for gif in result.data.iter() {
-                gifs_holder.add_gif(gif.clone())
-            }
+            let gifs_holder = GifHolder::new(gifs);
 
             gotham::start(addr, router(gifs_holder));
 

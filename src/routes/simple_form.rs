@@ -23,7 +23,7 @@ pub struct SimpleForm {
 pub fn simple_form(state: State) -> (State, Response<Body>) {
     let holder = GifHolder::borrow_from(&state);
     let gif_url = match holder.get_random_gif() {
-        Some(g) => g.images.original.url,
+        Some(g) => g.url,
         None => String::from("")
     };
 
