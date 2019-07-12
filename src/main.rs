@@ -10,6 +10,7 @@ extern crate mime;
 extern crate dotenv;
 extern crate url;
 extern crate tokio;
+extern crate rand;
 
 #[macro_use]
 extern crate serde_derive;

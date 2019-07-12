@@ -1,13 +1,11 @@
 use std::env;
 use std::sync::{Arc, Mutex};
-
 use hyper::Client;
 use hyper_tls::HttpsConnector;
 use futures::{Future, Stream};
-
 use dotenv::dotenv;
-
 use url::Url;
+use rand::seq::SliceRandom;
 
 pub fn fetch_gifs() -> impl Future<Item=GiphyResult, Error=()> {
     dotenv().ok();
@@ -155,19 +153,9 @@ impl GifHolder {
         gifs.push(gif);
     }
 
-    pub fn get_first_gif(&self) -> Option<Gif> {
+    pub fn get_random_gif(&self) -> Option<Gif> {
         let gifs = self.gifs.lock().unwrap();
-        let gif = gifs.first();
-
-        match gif {
-            Some(g) => Some(g.clone()),
-            None => None
-        }
-    }
-
-    pub fn get_gif(&self, slug: &str) -> Option<Gif> {
-        let gifs = self.gifs.lock().unwrap();
-        let gif = gifs.iter().filter(|g| g.slug == slug).last();
+        let gif = gifs.choose(&mut rand::thread_rng());
 
         match gif {
             Some(g) => Some(g.clone()),
