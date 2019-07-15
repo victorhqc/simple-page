@@ -3,13 +3,13 @@ extern crate askama;
 extern crate hyper;
 extern crate mime;
 
-use gotham::state::{FromState, State};
+use gotham::state::{State};
 use gotham::helpers::http::response::{create_empty_response, create_response};
 
 use askama::Template;
 use hyper::{Body, Response, StatusCode};
 
-use crate::GifHolder;
+use gif_service::redis::{get_random_gif};
 
 const MESSAGE: &str = "Gotham";
 
@@ -21,15 +21,14 @@ pub struct SimpleForm {
 }
 
 pub fn simple_form(state: State) -> (State, Response<Body>) {
-    let holder = GifHolder::borrow_from(&state);
-    let gif_url = match holder.get_random_gif() {
-        Some(g) => g.url,
-        None => String::from("")
+    let gif = match get_random_gif() {
+        Some(g) => g,
+        None => String::from(""),
     };
 
     let tpl = SimpleForm {
         world: MESSAGE.to_string(),
-        gif: gif_url,
+        gif,
     };
 
     let res = match tpl.render() {

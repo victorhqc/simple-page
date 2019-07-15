@@ -1,0 +1,16 @@
+digraph simplePage {
+  /* rankdir="LR"; */
+
+  node [shape="box";style="filled";fillcolor="salmon"];
+
+  webserver
+  gif_service
+
+  giphy [label="Giphy API";fillcolor="palegreen1"]
+
+  gif_service -> webserver [style="dashed";label="read"]
+
+
+  gif_service -> giphy [label="Updates every 5 min"]
+  giphy -> gif_service
+}

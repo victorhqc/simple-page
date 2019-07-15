@@ -1,0 +1,44 @@
+<svg width="218pt" height="130pt" viewBox="0 0 218 130" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 126)">
+<title>simplePage</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-126 213.9087,-126 213.9087,4 -4,4"></polygon>
+<!-- webserver -->
+<g id="node1" class="node">
+<title>webserver</title>
+<polygon fill="#fa8072" stroke="#000000" points="73.2881,-36 .2363,-36 .2363,0 73.2881,0 73.2881,-36"></polygon>
+<text text-anchor="middle" x="36.7622" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">webserver</text>
+</g>
+<!-- gif_service -->
+<g id="node2" class="node">
+<title>gif_service</title>
+<polygon fill="#fa8072" stroke="#000000" points="122.9558,-122 44.5686,-122 44.5686,-86 122.9558,-86 122.9558,-122"></polygon>
+<text text-anchor="middle" x="83.7622" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">gif_service</text>
+</g>
+<!-- gif_service&#45;&gt;webserver -->
+<g id="edge1" class="edge">
+<title>gif_service-&gt;webserver</title>
+<path fill="none" stroke="#000000" stroke-dasharray="5,2" d="M52.5579,-85.8748C46.5806,-80.882 41.1185,-74.9043 37.6724,-68 34.3518,-61.3473 33.1511,-53.5501 33.0235,-46.1186"></path>
+<polygon fill="#000000" stroke="#000000" points="36.5251,-46.1521 33.4485,-36.0138 29.5313,-45.8579 36.5251,-46.1521"></polygon>
+<text text-anchor="middle" x="49.8071" y="-56.8" font-family="Times,serif" font-size="14.00" fill="#000000">read</text>
+</g>
+<!-- giphy -->
+<g id="node3" class="node">
+<title>giphy</title>
+<polygon fill="#9aff9a" stroke="#000000" points="210.0557,-36 133.4687,-36 133.4687,0 210.0557,0 210.0557,-36"></polygon>
+<text text-anchor="middle" x="171.7622" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">Giphy API</text>
+</g>
+<!-- gif_service&#45;&gt;giphy -->
+<g id="edge2" class="edge">
+<title>gif_service-&gt;giphy</title>
+<path fill="none" stroke="#000000" d="M79.4525,-85.8914C78.0789,-75.6885 78.2676,-63.1885 84.5171,-54 93.5882,-40.663 108.583,-32.2598 123.6047,-26.9682"></path>
+<polygon fill="#000000" stroke="#000000" points="124.9066,-30.2288 133.418,-23.9196 122.8298,-23.544 124.9066,-30.2288"></polygon>
+<text text-anchor="middle" x="142.8848" y="-56.8" font-family="Times,serif" font-size="14.00" fill="#000000">Updates every 5 min</text>
+</g>
+<!-- giphy&#45;&gt;gif_service -->
+<g id="edge3" class="edge">
+<title>giphy-&gt;gif_service</title>
+<path fill="none" stroke="#000000" d="M192.8381,-36.188C201.5819,-45.9469 208.1548,-57.9907 200.7622,-68 192.3846,-79.3429 161.2535,-88.5996 133.2095,-94.8851"></path>
+<polygon fill="#000000" stroke="#000000" points="132.1067,-91.5421 123.0651,-97.0647 133.5772,-98.3859 132.1067,-91.5421"></polygon>
+</g>
+</g>
+</svg>
