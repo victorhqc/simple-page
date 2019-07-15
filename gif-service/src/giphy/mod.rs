@@ -1,6 +1,6 @@
 use std::env;
-use futures::{Future};
 use dotenv::dotenv;
+use futures::{Future};
 use url::Url;
 
 mod utils;

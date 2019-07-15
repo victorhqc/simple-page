@@ -2,11 +2,14 @@ use futures::future::lazy;
 use std::{thread, time};
 
 use futures::{Future};
+use rand::seq::SliceRandom;
+
 
 mod giphy;
 use giphy::{fetch_gifs};
 
-use rand::seq::SliceRandom;
+mod redis;
+use crate::redis::{save_in_redis};
 
 fn main() {
     loop {
@@ -23,8 +26,10 @@ fn main() {
                 None => panic!("No random word!"),
             };
 
-            fetch_gifs(word).and_then(|_gifs| {
-                println!("Gifs!");
+            println!("Fetching gifs for {}", word);
+            fetch_gifs(word).and_then(|gifs| {
+                println!("Obtained {} new gifs", gifs.len());
+                save_in_redis(gifs);
                 Ok(())
             }).map_err(|e| {
                 println!("Oh no! {:?}", e);
