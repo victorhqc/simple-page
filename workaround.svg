@@ -1,0 +1,57 @@
+<!DOCTYPE svg [<!ENTITY nbsp "&#160;">]><svg width="233pt" height="216pt" viewBox="0 0 233 216" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 212)">
+<title>simplePage</title>
+<polygon fill="#ffffff" stroke="transparent" points="-4,4 -4,-212 229.0328,-212 229.0328,4 -4,4"></polygon>
+<!-- webserver -->
+<g id="node1" class="node">
+<title>webserver</title>
+<polygon fill="#fa8072" stroke="#000000" points="73.2881,-36 .2363,-36 .2363,0 73.2881,0 73.2881,-36"></polygon>
+<text text-anchor="middle" x="36.7622" y="-13.8" font-family="Times,serif" font-size="14.00" fill="#000000">webserver</text>
+</g>
+<!-- gif_service -->
+<g id="node2" class="node">
+<title>gif_service</title>
+<polygon fill="#fa8072" stroke="#000000" points="143.9558,-208 65.5686,-208 65.5686,-172 143.9558,-172 143.9558,-208"></polygon>
+<text text-anchor="middle" x="104.7622" y="-185.8" font-family="Times,serif" font-size="14.00" fill="#000000">gif_service</text>
+</g>
+<!-- redis -->
+<g id="node3" class="node">
+<title>redis</title>
+<polygon fill="#ee4000" stroke="#000000" points="63.7622,-122 9.7622,-122 9.7622,-86 63.7622,-86 63.7622,-122"></polygon>
+<text text-anchor="middle" x="36.7622" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">redis</text>
+</g>
+<!-- gif_service&#45;&gt;redis -->
+<g id="edge2" class="edge">
+<title>gif_service-&gt;redis</title>
+<path fill="none" stroke="#000000" d="M65.5065,-177.309C54.7843,-171.8683 44.3857,-164.3171 38.0483,-154 34.156,-147.6634 32.724,-139.9708 32.5418,-132.5386"></path>
+<polygon fill="#000000" stroke="#000000" points="36.046,-132.5181 32.9901,-122.3736 29.0528,-132.2096 36.046,-132.5181"></polygon>
+<text text-anchor="middle" x="61.1191" y="-142.8" font-family="Times,serif" font-size="14.00" fill="#000000"> writes &nbsp;</text>
+</g>
+<!-- giphy -->
+<g id="node4" class="node">
+<title>giphy</title>
+<polygon fill="#9aff9a" stroke="#000000" points="216.0557,-122 139.4687,-122 139.4687,-86 216.0557,-86 216.0557,-122"></polygon>
+<text text-anchor="middle" x="177.7622" y="-99.8" font-family="Times,serif" font-size="14.00" fill="#000000">Giphy API</text>
+</g>
+<!-- gif_service&#45;&gt;giphy -->
+<g id="edge3" class="edge">
+<title>gif_service-&gt;giphy</title>
+<path fill="none" stroke="#000000" d="M100.6405,-171.5758C99.416,-161.5145 99.6899,-149.2574 105.5171,-140 111.4041,-130.6476 120.5196,-123.641 130.3159,-118.4225"></path>
+<polygon fill="#000000" stroke="#000000" points="131.884,-121.5527 139.4309,-114.1167 128.894,-115.2234 131.884,-121.5527"></polygon>
+<text text-anchor="middle" x="163.8848" y="-142.8" font-family="Times,serif" font-size="14.00" fill="#000000">Updates every 5 min</text>
+</g>
+<!-- redis&#45;&gt;webserver -->
+<g id="edge1" class="edge">
+<title>redis-&gt;webserver</title>
+<path fill="none" stroke="#000000" d="M36.7622,-85.7616C36.7622,-74.3597 36.7622,-59.4342 36.7622,-46.494"></path>
+<polygon fill="#000000" stroke="#000000" points="40.2623,-46.2121 36.7622,-36.2121 33.2623,-46.2121 40.2623,-46.2121"></polygon>
+<text text-anchor="middle" x="53.2813" y="-56.8" font-family="Times,serif" font-size="14.00" fill="#000000"> reads</text>
+</g>
+<!-- giphy&#45;&gt;gif_service -->
+<g id="edge4" class="edge">
+<title>giphy-&gt;gif_service</title>
+<path fill="none" stroke="#000000" d="M209.1024,-122.1226C221.0044,-131.3493 229.9371,-142.9316 221.7622,-154 213.3846,-165.3429 182.2535,-174.5996 154.2095,-180.8851"></path>
+<polygon fill="#000000" stroke="#000000" points="153.1067,-177.5421 144.0651,-183.0647 154.5772,-184.3859 153.1067,-177.5421"></polygon>
+</g>
+</g>
+</svg>
