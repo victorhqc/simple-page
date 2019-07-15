@@ -4,7 +4,7 @@ use dotenv::dotenv;
 use url::Url;
 
 mod utils;
-use utils::{ GiphyGif, FetchError, fetch_giphy_json };
+pub use self::utils::*;
 
 pub fn fetch_gifs(needle: String) -> impl Future<Item=Vec<Gif>, Error=()> {
     dotenv().ok();

@@ -1,7 +1,7 @@
 use std::sync::{Arc, Mutex};
 use rand::seq::SliceRandom;
 
-use gif_service::{GiphyResult};
+use gif_service::giphy::{GiphyGif};
 
 pub struct Gif {
     pub id: String,

@@ -1,6 +1,7 @@
 use hyper::Client;
 use hyper_tls::HttpsConnector;
 use futures::{Future, Stream};
+use serde::{Deserialize};
 
 pub fn fetch_giphy_json(url: hyper::Uri) -> impl Future<Item=GiphyResult, Error=FetchError> {
     let https = HttpsConnector::new(4).expect("TLS Initialization failed!");

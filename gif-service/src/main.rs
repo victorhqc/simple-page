@@ -1,8 +1,3 @@
-#[macro_use]
-extern crate serde_derive;
-extern crate serde;
-extern crate serde_json;
-
 use futures::future::lazy;
 use std::{thread, time};
 
@@ -14,7 +9,6 @@ use giphy::{fetch_gifs};
 use rand::seq::SliceRandom;
 
 fn main() {
-
     loop {
         tokio::run(lazy(move || {
             let words = vec![

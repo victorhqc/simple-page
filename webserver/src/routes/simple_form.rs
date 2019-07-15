@@ -3,7 +3,7 @@ extern crate askama;
 extern crate hyper;
 extern crate mime;
 
-use gotham::state::{FromState, State};
+use gotham::state::{State};
 use gotham::helpers::http::response::{create_empty_response, create_response};
 
 use askama::Template;
@@ -27,7 +27,7 @@ pub fn simple_form(state: State) -> (State, Response<Body>) {
 
     let tpl = SimpleForm {
         world: MESSAGE.to_string(),
-        gif: "",
+        gif: String::from(""),
     };
 
     let res = match tpl.render() {
