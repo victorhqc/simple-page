@@ -42,12 +42,17 @@ a simple page.
 docker run -d -p 6379:6379 redis
 ```
 
-2. Start gif service
+1. Start gif service
 ```sh
 cargo run --bin gif-service
 ```
 
-3. Start webserver
+1. Start iframe service
+```
+ADDRESS=127.0.0.1:7879 cargo run --bin webserver
+```
+
+1. Start webserver
 ```
 cargo run --bin webserver
 ```

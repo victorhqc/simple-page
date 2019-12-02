@@ -9,6 +9,12 @@
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
     >
+    <style media="screen">
+      #secured-stuff {
+        width: 100%;
+        height: 200px;
+      }
+    </style>
   </head>
   <body>
     <div class="container">
@@ -50,6 +56,9 @@
         <div class="form-group">
           <label for="exampleInputPassword1">Password</label>
           <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+        </div>
+        <div class="form-group">
+          <iframe id="secured-stuff" src="{{ iframe_address }}"></iframe>
         </div>
         <div class="form-group form-check">
           <input type="checkbox" class="form-check-input" id="exampleCheck1">

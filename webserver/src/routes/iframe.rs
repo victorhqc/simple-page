@@ -9,31 +9,13 @@ use gotham::helpers::http::response::{create_empty_response, create_response};
 use askama::Template;
 use hyper::{Body, Response, StatusCode};
 
-use crate::helpers::get_iframe_address;
-
-use gif_service::redis::{get_random_gif};
-
-const MESSAGE: &str = "Gotham";
-
 #[derive(Debug, Template)]
-#[template(path = "simple_form.html")]
-pub struct SimpleForm {
-    pub world: String,
-    pub gif: String,
-    pub iframe_address: String,
-}
+#[template(path = "iframe.html")]
+pub struct Iframe {}
 
-pub fn simple_form(state: State) -> (State, Response<Body>) {
-    let gif = match get_random_gif() {
-        Some(g) => g,
-        None => String::from(""),
-    };
+pub fn render_iframe(state: State) -> (State, Response<Body>) {
 
-    let tpl = SimpleForm {
-        world: MESSAGE.to_string(),
-        gif,
-        iframe_address: get_iframe_address(),
-    };
+    let tpl = Iframe {};
 
     let res = match tpl.render() {
         Ok(content) => create_response(
