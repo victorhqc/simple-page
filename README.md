@@ -36,7 +36,6 @@ a simple page.
 
 ## How to run
 
-
 1. Start Redis server
 ```sh
 docker run -d -p 6379:6379 redis
@@ -56,3 +55,33 @@ ADDRESS=127.0.0.1:7879 cargo run --bin webserver
 ```
 cargo run --bin webserver
 ```
+
+## How to run (nested iframes)
+
+1. Start Redis server
+```sh
+docker run -d -p 6379:6379 redis
+```
+
+1. Start gif service
+```sh
+cargo run --bin gif-service
+```
+
+1. Start iframe service
+```
+ADDRESS=127.0.0.1:7880 cargo run --bin webserver
+```
+
+1. Start intermediate iframe service
+```
+ADDRESS=127.0.0.1:7879 IFRAME_ADDRESS=http://127.0.0.1:7880/page?title=baz cargo run --bin webserver
+```
+
+1. Start main webserver
+```
+ADDRESS=127.0.0.1:7878 IFRAME_ADDRESS=http://127.0.0.1:7879/page_with_iframe?title=bar cargo run --bin webserver
+```
+
+1. Access with browser in
+   [http://127.0.0.1:7878/page_with_iframe?title=foo](http://127.0.0.1:7878/page_with_iframe?title=foo)

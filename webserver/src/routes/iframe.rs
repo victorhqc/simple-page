@@ -1,8 +1,3 @@
-extern crate gotham;
-extern crate askama;
-extern crate hyper;
-extern crate mime;
-
 use gotham::state::{State};
 use gotham::helpers::http::response::{create_empty_response, create_response};
 

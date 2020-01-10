@@ -1,33 +1,36 @@
-use gotham::state::{State};
+use serde::{Deserialize};
+
+use gotham::state::{State, FromState};
 use gotham::helpers::http::response::{create_empty_response, create_response};
 
 use askama::Template;
 use hyper::{Body, Response, StatusCode};
 
-use crate::helpers::get_iframe_address;
-
 use gif_service::redis::{get_random_gif};
 
-const MESSAGE: &str = "Gotham";
-
 #[derive(Debug, Template)]
-#[template(path = "simple_form.html")]
-pub struct SimpleForm {
-    pub world: String,
+#[template(path = "page.html")]
+pub struct Page {
+    pub title: String,
     pub gif: String,
-    pub iframe_address: String,
 }
 
-pub fn simple_form(state: State) -> (State, Response<Body>) {
+#[derive(Deserialize, StateData, StaticResponseExtender)]
+pub struct PageQueryExtractor {
+    title: String,
+}
+
+pub fn render_page(mut state: State) -> (State, Response<Body>) {
     let gif = match get_random_gif() {
         Some(g) => g,
         None => String::from(""),
     };
 
-    let tpl = SimpleForm {
-        world: MESSAGE.to_string(),
+    let query_param = PageQueryExtractor::take_from(&mut state);
+
+    let tpl = Page {
+        title: query_param.title,
         gif,
-        iframe_address: get_iframe_address(),
     };
 
     let res = match tpl.render() {
