@@ -1,14 +1,10 @@
-use serde::{Deserialize};
-
-use gotham::state::{State, FromState};
-use gotham::helpers::http::response::{create_empty_response, create_response};
-
-use askama::Template;
-use hyper::{Body, Response, StatusCode};
-
 use crate::helpers::get_iframe_address;
-
-use gif_service::redis::{get_random_gif};
+use crate::GIPHY;
+use askama::Template;
+use gotham::helpers::http::response::{create_empty_response, create_response};
+use gotham::state::{FromState, State};
+use hyper::{Body, Response, StatusCode};
+use serde::Deserialize;
 
 #[derive(Debug, Template)]
 #[template(path = "page_with_iframe.html")]
@@ -24,7 +20,8 @@ pub struct PageWithIframeQueryExtractor {
 }
 
 pub fn render_page_with_iframe(mut state: State) -> (State, Response<Body>) {
-    let gif = match get_random_gif() {
+    let giphy = GIPHY.get_inner().unwrap();
+    let gif = match giphy.get_random() {
         Some(g) => g,
         None => String::from(""),
     };

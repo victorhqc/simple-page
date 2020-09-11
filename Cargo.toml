@@ -1,5 +1,5 @@
 [workspace]
 members = [
-  "webserver",
-  "gif-service"
+  "giphy-utils",
+  "webserver"
 ]

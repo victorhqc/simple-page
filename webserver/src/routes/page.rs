@@ -1,12 +1,10 @@
-use serde::{Deserialize};
+use serde::Deserialize;
 
-use gotham::state::{State, FromState};
-use gotham::helpers::http::response::{create_empty_response, create_response};
-
+use crate::GIPHY;
 use askama::Template;
+use gotham::helpers::http::response::{create_empty_response, create_response};
+use gotham::state::{FromState, State};
 use hyper::{Body, Response, StatusCode};
-
-use gif_service::redis::{get_random_gif};
 
 #[derive(Debug, Template)]
 #[template(path = "page.html")]
@@ -21,7 +19,8 @@ pub struct PageQueryExtractor {
 }
 
 pub fn render_page(mut state: State) -> (State, Response<Body>) {
-    let gif = match get_random_gif() {
+    let giphy = GIPHY.get_inner().unwrap();
+    let gif = match giphy.get_random() {
         Some(g) => g,
         None => String::from(""),
     };
