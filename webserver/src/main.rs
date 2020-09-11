@@ -65,6 +65,8 @@ fn gif_service() -> impl Future<Item = (), Error = ()> {
         String::from("pug"),
         String::from("cat"),
         String::from("llama"),
+        String::from("party"),
+        String::from("food"),
     ];
 
     let word = get_random_word(words);
