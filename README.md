@@ -29,7 +29,7 @@ ADDRESS=127.0.0.1:7879 cargo run
 1. Start webserver
 
 ```
-cargo run --bin webserver
+cargo run
 ```
 
 ## How to run (nested iframes)
