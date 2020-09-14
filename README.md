@@ -34,23 +34,14 @@ cargo run
 
 ## How to run (nested iframes)
 
-1. Start iframe service
+1. Compile production build
 
-```
-ADDRESS=127.0.0.1:7880 cargo run
-```
-
-1. Start intermediate iframe service
-
-```
-ADDRESS=127.0.0.1:7879 IFRAME_ADDRESS=http://127.0.0.1:7880/page?title=baz cargo run
+```bash
+cargo build --release
 ```
 
-1. Start main webserver
+1. Run start script
 
+```bash
+./scripts/start.sh
 ```
-ADDRESS=127.0.0.1:7878 IFRAME_ADDRESS=http://127.0.0.1:7879/page_with_iframe?title=bar cargo run
-```
-
-1. Access with browser in
-   [http://127.0.0.1:7878/page_with_iframe?title=foo](http://127.0.0.1:7878/page_with_iframe?title=foo)
