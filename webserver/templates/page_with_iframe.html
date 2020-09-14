@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title>Page with iframe</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
       integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
       crossorigin="anonymous"
-    >
+    />
     <style media="screen">
       #iframe {
         width: 100%;
@@ -18,7 +18,8 @@
   </head>
   <body>
     <h1>{{ title }}</h1>
-    <img src={{gif}} />
+    <img src="{{gif}}" />
+    <input type="text" name="input-{{title}}" />
     <br />
     <iframe id="iframe" src="{{ iframe_address }}"></iframe>
   </body>
